@@ -44,8 +44,9 @@
   <p>{{ rangeSelected }}</p>
 
   <button (click)="getRange()">Click me</button>
-
+<ng-container *ngIf="rangeSelected !== []">
   <app-chart
     [rangeSelected]="rangeSelected"
   ></app-chart>
+</ng-container>
 </mat-card>

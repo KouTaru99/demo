@@ -41,6 +41,7 @@ export class AppComponent {
     console.log(this.months.indexOf(this.endMonth));
     this.rangeSelected = this.months.slice(this.months.indexOf(this.startMonth), this.months.indexOf(this.endMonth)+1)
     console.log(this.rangeSelected);
+    return this.rangeSelected
 
   }
 

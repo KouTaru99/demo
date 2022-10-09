@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,11 +7,35 @@ import { BaseChartDirective } from 'ng2-charts';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss']
 })
-export class ChartComponent implements OnInit {
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  @Input() rangeSelected = [
+export class ChartComponent implements OnInit, OnChanges {
+  arrMonth:string[] = []
+  @Input() set rangeSelected(val:string[]) {
+
+    console.log('val',val);
+    this._rangeSelected = val
+  }
+
+  private _rangeSelected = [
     'January', 'February', 'March', 'April'
   ]
+
+  get rangeSelected() {
+    return this._rangeSelected
+  }
+
+
+  constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('change', this.rangeSelected);
+    this.rangeSelected = this.rangeSelected;
+    this.chart?.update();
+
+  }
+
+  ngOnInit(): void {
+    console.log(this.rangeSelected);
+
+  }
 
   lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: this.rangeSelected,
@@ -42,16 +66,13 @@ export class ChartComponent implements OnInit {
     ]
   };
   lineChartOptions: ChartOptions<'line'> = {
-    responsive: false
+    responsive: true
   };
-  lineChartLegend = true;
+  lineChartLegend = false;
 
-  constructor() { }
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  ngOnInit(): void {
-    console.log(this.rangeSelected);
 
-  }
 }
 
 
